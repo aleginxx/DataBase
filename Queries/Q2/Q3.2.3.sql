@@ -8,34 +8,34 @@ CREATE PROCEDURE get_average_ratings(
     IN search_genre VARCHAR(100)
 )
 BEGIN
-    -- Declare variables
-    DECLARE sql_statement VARCHAR(1000);
+    SET @t1 = 'SELECT AVG(r.rating) AS average_rating, r.username_su AS username, CONCAT(su.first_name, " ", su.last_name) AS user_name
+        FROM review r
+        JOIN school_user su ON r.username_su = su.username_su
+        JOIN Book_has_Genre bhg ON r.isbn = bhg.Book_isbn
+        JOIN genre g ON bhg.Genre_genre_id = g.genre_id
+        WHERE 1=1';
 
-    -- Build the SQL statement dynamically
-    SET sql_statement = 'SELECT distinct g.category, AVG(r.rating) AS average_rating, CONCAT(su.first_name, " ", su.last_name) AS user_name
-        FROM review r, school_user su, genre g, Book_has_Genre bhg
-        WHERE r.username_su = su.username_su AND r.isbn = bhg.Book_isbn';
-        
-	IF search_first_name != '' THEN
-        SET sql_statement = CONCAT(sql_statement, ' AND su.first_name LIKE "%', search_first_name, '%"');
+    IF search_first_name != '' THEN
+        SET @t1 = CONCAT(@t1, ' AND su.first_name LIKE "%', search_first_name, '%"');
     END IF;
-    
+
     IF search_last_name != '' THEN
-        SET sql_statement = CONCAT(sql_statement, ' AND su.last_name LIKE "%', search_last_name, '%"');
+        SET @t1 = CONCAT(@t1, ' AND su.last_name LIKE "%', search_last_name, '%"');
     END IF;
-    
+
     IF search_genre != '' THEN
-        SET sql_statement = CONCAT(sql_statement, ' AND g.category LIKE "%', search_genre, '%"');
+        SET @t1 = CONCAT(@t1, ' AND g.category LIKE "%', search_genre, '%"');
     END IF;
-    
-	SET sql_statement = CONCAT(sql_statement, ' GROUP BY user_name');
+
+    SET @t1 = CONCAT(@t1, ' AND r.approved IN ("accepted", "not needed")');
+    SET @t1 = CONCAT(@t1, ' GROUP BY r.username_su');
 
     -- Prepare and execute the dynamic SQL statement
-    PREPARE stmt FROM sql_statement;
-    EXECUTE stmt;
-    DEALLOCATE PREPARE stmt;
+    PREPARE stmt3 FROM @t1;
+    EXECUTE stmt3;
+    DEALLOCATE PREPARE stmt3;
 END //
 
 DELIMITER ;
 
--- CALL get_average_ratings('', '', 'Action');
+-- CALL get_average_ratings('h', '', '');

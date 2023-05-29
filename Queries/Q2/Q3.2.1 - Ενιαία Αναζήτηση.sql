@@ -9,34 +9,34 @@ CREATE PROCEDURE get_list(
   IN search_copies INT
 )
 BEGIN
- set @t1 = 'select distinct g.category, b.title, concat(a.first_name, '' '', a.last_name) as author_name
- from author a, genre g, book b, Book_has_Genre bhg, Book_has_Author bha
- where bhg.Book_isbn=b.isbn and g.genre_id=bhg.Genre_genre_id
-	and bha.Book_isbn=b.isbn and a.author_id=bha.Author_author_id';
+  SET @t1 = 'SELECT DISTINCT CONCAT(a.first_name, '' '', a.last_name) AS author_name, b.title
+             FROM author a, genre g, book b, Book_has_Genre bhg, Book_has_Author bha
+             WHERE bhg.Book_isbn = b.isbn AND g.genre_id = bhg.Genre_genre_id
+               AND bha.Book_isbn = b.isbn AND a.author_id = bha.Author_author_id';
 
-IF search_genre != '' then
-	set @t1 = CONCAT(@t1, ' and g.category like ''%', search_genre,'%''');
-end if;
+  IF search_genre != '' THEN
+    SET @t1 = CONCAT(@t1, ' AND g.category LIKE ''%', search_genre, '%''');
+  END IF;
 
-IF search_author != '' then
-	set @t1 = CONCAT(@t1, ' and CONCAT(a.first_name, '' '', a.last_name) LIKE ''%', search_author,'%''');
-end if;
+  IF search_author != '' THEN
+    SET @t1 = CONCAT(@t1, ' AND CONCAT(a.first_name, '' '', a.last_name) LIKE ''%', search_author, '%''');
+  END IF;
 
-IF search_title != '' then
-	set @t1 = CONCAT(@t1, ' and b.title like ''%', search_title,'%''');
-end if;
+  IF search_title != '' THEN
+    SET @t1 = CONCAT(@t1, ' AND b.title LIKE ''%', search_title, '%''');
+  END IF;
 
-IF search_copies != 0 then
-	set @t1 = CONCAT(@t1, ' and b.available_copies >= ', search_copies);
-end if;
-    
-set @t1 = concat(@t1, ' group by author_name, b.title;'); 
+  IF search_copies != 0 THEN
+    SET @t1 = CONCAT(@t1, ' AND b.available_copies >= ', search_copies);
+  END IF;
 
-PREPARE stmt3 FROM @t1;
-EXECUTE stmt3;
-DEALLOCATE PREPARE stmt3;	
+  SET @t1 = CONCAT(@t1, ' GROUP BY g.category, author_name, b.title;'); 
+
+  PREPARE stmt3 FROM @t1;
+  EXECUTE stmt3;
+  DEALLOCATE PREPARE stmt3;	
 END //
 
 DELIMITER ;
 
-CALL get_list('', '', '', 3);
+-- CALL get_list('f', 'g', '', 0);
