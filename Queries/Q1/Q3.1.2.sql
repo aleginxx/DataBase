@@ -18,5 +18,5 @@ END //
 DELIMITER ;
 
 -- Example call of proc
-call get_teachers_authors_by_genre('Horror');
-call get_teachers_authors_by_genre('Action');
+-- call get_teachers_authors_by_genre('Horror');
+-- call get_teachers_authors_by_genre('Action');

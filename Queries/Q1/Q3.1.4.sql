@@ -1,9 +1,10 @@
- select a.first_name, a.last_name
- from author a, Book_has_Author bha, book b
- where bha.Book_isbn=b.isbn
-	and a.author_id=bha.Author_author_id
-    and b.isbn not in (
-		select bd.isbn
-		from book_demand bd
-        where bd.category='B'
-	);
+SELECT DISTINCT a.first_name, a.last_name
+FROM author a
+JOIN Book_has_Author bha ON a.author_id = bha.Author_author_id
+JOIN book b ON bha.Book_isbn = b.isbn
+WHERE b.isbn NOT IN (
+    SELECT bd.isbn
+    FROM book_demand bd
+    WHERE bd.category = 'B'
+)
+ORDER BY a.last_name ASC;
