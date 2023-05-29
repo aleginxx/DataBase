@@ -3,34 +3,26 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS get_list //
 
 CREATE PROCEDURE get_list(
-    IN search_first_name VARCHAR(100),
-    IN search_last_name VARCHAR(100)
+    IN search_name VARCHAR(100)
 )
 BEGIN
-    -- Declare variables
-    DECLARE sql_statement VARCHAR(1000);
 
-    -- Build the SQL statement dynamically
-    SET sql_statement = 'SELECT DISTINCT b.title, CONCAT(su.first_name, " ", su.last_name) AS user_name
-        FROM book b, school_user su, book_demand bd
+    SET @t1 = 'SELECT DISTINCT b.title, CONCAT(su.first_name, " ", su.last_name) AS user_name, g.category
+        FROM book b, school_user su, book_demand bd, genre g
         WHERE bd.isbn = b.isbn AND bd.username_su = su.username_su';
 
-    IF search_first_name != '' THEN
-        SET sql_statement = CONCAT(sql_statement, ' AND su.first_name LIKE "%', search_first_name, '%"');
-    END IF;
-
-    IF search_last_name != '' THEN
-        SET sql_statement = CONCAT(sql_statement, ' AND su.last_name LIKE "%', search_last_name, '%"');
-    END IF;
+    IF search_name != '' THEN
+	SET @t1 = CONCAT(@t1, ' and CONCAT(su.first_name, '' '', su.last_name) LIKE ''%', search_name,'%''');
+	END IF;
     
-    SET sql_statement = CONCAT(sql_statement, ' GROUP BY user_name, b.title');
+    SET @t1 = CONCAT(@t1, ' GROUP BY user_name');
 
     -- Prepare and execute the dynamic SQL statement
-    PREPARE stmt FROM sql_statement;
-    EXECUTE stmt;
-    DEALLOCATE PREPARE stmt;
+    PREPARE stmt3 FROM @t1;
+		EXECUTE stmt3;
+    DEALLOCATE PREPARE stmt3;
 END //
 
 DELIMITER ;
 
-CALL get_list('Zoe', '');
+-- CALL get_list('z');
