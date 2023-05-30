@@ -6,7 +6,7 @@ BEGIN
                     FROM book_demand bd
                     JOIN school_user suser ON bd.username_su = suser.username_su
                     JOIN school_unit unit ON suser.phone_number = unit.phone_number
-                    WHERE bd.category = \'B\' 
+                    WHERE bd.category = \'B\' AND state = \'active\' OR state = \'active\'
                     GROUP BY ', input_function, ', unit.name');
   
   PREPARE stmt3 FROM @t1;
