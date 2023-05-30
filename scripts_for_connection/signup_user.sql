@@ -16,6 +16,7 @@ CREATE PROCEDURE signup_user (
 BEGIN
 	DECLARE username_check INT;
     DECLARE check_phone VARCHAR(100); 
+    DECLARE username_check_lm INT;
     
     SELECT COUNT(*) INTO username_check
     FROM School_User su
@@ -30,11 +31,15 @@ BEGIN
 		FROM School_Unit su
 		WHERE su.phone_number = input_phone_number;
                 
-        IF username_check > 0 THEN
+        IF check_phone = 0 THEN
 			SELECT 'The phone number you have provided does not belong to any School Unit on the database. Please provide a valid phone number.' AS Message;
 		
         ELSE 
-			IF username_check > 0 THEN 
+			SELECT COUNT(*) INTO username_check_lm
+			FROM School_User su
+			WHERE su.username_su = input_username;
+        
+			IF username_check_lm > 0 THEN 
 				INSERT INTO School_User (username_su, password, first_name, last_name, birth_date, role, phone_number, is_lm, approved) VALUES (input_username, input_password, input_first_name, input_last_name, input_birth_date, input_role, input_phone_number, 1, 'pending');
 			ELSE 
 				INSERT INTO School_User (username_su, password, first_name, last_name, birth_date, role, phone_number, is_lm, approved) VALUES (input_username, input_password, input_first_name, input_last_name, input_birth_date, input_role, input_phone_number, 0, 'pending');
