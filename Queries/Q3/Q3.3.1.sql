@@ -8,7 +8,7 @@ CREATE PROCEDURE get_list(
 	IN search_genre VARCHAR(100)
 )
 BEGIN
- set @t1 = 'select distinct b.title, concat(a.first_name, '' '', a.last_name) as author_name, g.category
+ set @t1 = 'select distinct b.title, concat(a.first_name, '' '', a.last_name) as author_name
  from author a, genre g, book b, Book_has_Genre bhg, Book_has_Author bha
  where bhg.Book_isbn=b.isbn and g.genre_id=bhg.Genre_genre_id
 	and bha.Book_isbn=b.isbn and a.author_id=bha.Author_author_id';
@@ -34,4 +34,4 @@ END //
 DELIMITER ;
 
 
--- CALL get_list('', 'Trelevan', '');
+-- CALL get_list('', '', 'horror');
