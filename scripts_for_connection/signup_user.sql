@@ -25,14 +25,11 @@ BEGIN
 		SELECT 'This username already exists. Please choose a different one.' AS Message; 
     
     ELSE 
-		SELECT COUNT(*) INTO check_phone
-		FROM School_User su
-		WHERE su.username_su = input_username;
     
-		SELECT COUNT(*) INTO username_check
+		SELECT COUNT(*) INTO check_phone
 		FROM School_Unit su
 		WHERE su.phone_number = input_phone_number;
-        
+                
         IF username_check > 0 THEN
 			SELECT 'The phone number you have provided does not belong to any School Unit on the database. Please provide a valid phone number.' AS Message;
 		
