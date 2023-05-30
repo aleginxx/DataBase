@@ -36,8 +36,8 @@ BEGIN
 		
         ELSE 
 			SELECT COUNT(*) INTO username_check_lm
-			FROM School_User su
-			WHERE su.username_su = input_username;
+			FROM Library_Manager lm
+			WHERE lm.username_su = input_username;
         
 			IF username_check_lm > 0 THEN 
 				INSERT INTO School_User (username_su, password, first_name, last_name, birth_date, role, phone_number, is_lm, approved) VALUES (input_username, input_password, input_first_name, input_last_name, input_birth_date, input_role, input_phone_number, 1, 'pending');
