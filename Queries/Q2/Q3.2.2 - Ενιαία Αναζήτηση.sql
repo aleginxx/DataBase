@@ -9,7 +9,7 @@ CREATE PROCEDURE get_list(
 )
 BEGIN
 
-    SET @t1 = 'SELECT DISTINCT b.title, DATEDIFF(CURDATE(), bd.datetime) AS days_passed, CONCAT(su.first_name, " ", su.last_name) AS user_name, bd.state
+    SET @t1 = 'SELECT DISTINCT b.title, DATEDIFF(bd.datetime, CURDATE()) AS days_passed, CONCAT(su.first_name, " ", su.last_name) AS user_name, bd.state
         FROM book b, school_user su, book_demand bd
         WHERE bd.isbn = b.isbn AND bd.username_su = su.username_su';
 
@@ -22,7 +22,7 @@ BEGIN
     END IF;
 
     IF search_overdue_borrowings != 0 THEN
-		SET @t1 = CONCAT(@t1, ' AND DATEDIFF(CURDATE(), bd.datetime) = ', CAST(search_overdue_borrowings AS CHAR));
+		SET @t1 = CONCAT(@t1, ' AND DATEDIFF(bd.datetime, CURDATE()) = ', CAST(search_overdue_borrowings AS CHAR));
     END IF;
 
 	SET @t1 = CONCAT(@t1, ' AND bd.state = ''overdue'' ');
@@ -36,4 +36,4 @@ END //
 
 DELIMITER ;
 
--- CALL get_list('', '', 2);
+-- CALL get_list('g', '', 0);
