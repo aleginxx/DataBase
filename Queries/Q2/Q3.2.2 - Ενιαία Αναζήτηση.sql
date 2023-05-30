@@ -9,7 +9,7 @@ CREATE PROCEDURE get_list(
 )
 BEGIN
 
-    SET @t1 = 'SELECT DISTINCT b.title, DATEDIFF(CURDATE(), bd.datetime) AS days_passed, CONCAT(su.first_name, " ", su.last_name) AS user_name
+    SET @t1 = 'SELECT DISTINCT b.title, DATEDIFF(CURDATE(), bd.datetime) AS days_passed, CONCAT(su.first_name, " ", su.last_name) AS user_name, bd.state
         FROM book b, school_user su, book_demand bd
         WHERE bd.isbn = b.isbn AND bd.username_su = su.username_su';
 
@@ -25,8 +25,8 @@ BEGIN
 		SET @t1 = CONCAT(@t1, ' AND DATEDIFF(CURDATE(), bd.datetime) = ', CAST(search_overdue_borrowings AS CHAR));
     END IF;
 
-	SET @t1 = CONCAT(@t1, ' AND DATEDIFF(CURDATE(), bd.datetime) >= 7');
-    SET @t1 = CONCAT(@t1, ' GROUP BY user_name, b.title, bd.datetime');
+	SET @t1 = CONCAT(@t1, ' AND bd.state = ''overdue'' ');
+    SET @t1 = CONCAT(@t1, ' GROUP BY user_name, b.title, bd.datetime, bd.state');
 
     -- Prepare and execute the dynamic SQL statement
     PREPARE stmt3 FROM @t1;
@@ -36,4 +36,4 @@ END //
 
 DELIMITER ;
 
--- CALL get_list('g', '', 0);
+-- CALL get_list('', '', 2);
