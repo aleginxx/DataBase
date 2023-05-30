@@ -15,6 +15,7 @@ CREATE PROCEDURE signup_user (
 )
 BEGIN
 	DECLARE username_check INT;
+    DECLARE check_phone VARCHAR(100); 
     
     SELECT COUNT(*) INTO username_check
     FROM School_User su
@@ -24,17 +25,25 @@ BEGIN
 		SELECT 'This username already exists. Please choose a different one.' AS Message; 
     
     ELSE 
+		SELECT COUNT(*) INTO check_phone
+		FROM School_User su
+		WHERE su.username_su = input_username;
+    
 		SELECT COUNT(*) INTO username_check
-		FROM Library_Manager lm
-		WHERE lm.username_libm = input_username;
-		
-        IF username_check > 0 THEN 
-			INSERT INTO School_User (username_su, password, first_name, last_name, birth_date, role, phone_number, is_lm, approved) VALUES (input_username, input_password, input_first_name, input_last_name, input_birth_date, input_role, input_phone_number, 1, 'pending');
-		ELSE 
-			INSERT INTO School_User (username_su, password, first_name, last_name, birth_date, role, phone_number, is_lm, approved) VALUES (input_username, input_password, input_first_name, input_last_name, input_birth_date, input_role, input_phone_number, 0, 'pending');
-		
-        END IF;
+		FROM School_Unit su
+		WHERE su.phone_number = input_phone_number;
         
+        IF username_check > 0 THEN
+			SELECT 'The phone number you have provided does not belong to any School Unit on the database. Please provide a valid phone number.' AS Message;
+		
+        ELSE 
+			IF username_check > 0 THEN 
+				INSERT INTO School_User (username_su, password, first_name, last_name, birth_date, role, phone_number, is_lm, approved) VALUES (input_username, input_password, input_first_name, input_last_name, input_birth_date, input_role, input_phone_number, 1, 'pending');
+			ELSE 
+				INSERT INTO School_User (username_su, password, first_name, last_name, birth_date, role, phone_number, is_lm, approved) VALUES (input_username, input_password, input_first_name, input_last_name, input_birth_date, input_role, input_phone_number, 0, 'pending');
+		
+			END IF;
+		END IF;
 	END IF;
     
     END //
