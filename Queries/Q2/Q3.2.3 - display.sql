@@ -1,7 +1,8 @@
-SELECT r.username_su, AVG(r.rating) AS average_rating
-FROM Review r
+SELECT CONCAT(su.first_name, " ", su.last_name) AS user_name, AVG(r.rating) AS average_rating
+FROM School_User su
+JOIN Review r ON su.username_su = r.username_su
 WHERE r.approved IN ('not needed', 'accepted')
-GROUP BY r.username_su;
+GROUP BY su.username_su, su.first_name, su.last_name;
 
 SELECT g.category, AVG(r.rating) AS average_rating
 FROM Genre g
