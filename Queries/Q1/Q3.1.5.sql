@@ -3,6 +3,7 @@ FROM school_user user, school_unit unit, book b, book_demand bd, library_manager
 WHERE bd.isbn = b.isbn
 	AND bd.username_su = user.username_su
 	AND lm.username_libm = bd.username_libm
+    AND lm.approved = 'accepted'
 	AND bd.category = 'B'
 GROUP BY unit.username_libm, lm.username_libm
 HAVING borrowing_count_per_unit > 20
