@@ -14,8 +14,8 @@ CREATE PROCEDURE reject_signup_user (
     IN input_role VARCHAR(1)
 )
 BEGIN
-UPDATE School_User su
-    SET approved = 'rejected' 
+	DELETE 
+    FROM School_User 
     WHERE su.username_su = input_username AND su.password = input_password;
     
     END //
