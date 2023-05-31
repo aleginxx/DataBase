@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Book_Demand` (
   `datetime` date NOT NULL,
   `isbn` VARCHAR(12) NOT NULL,
   `username_libm` VARCHAR(45) NOT NULL, 
-  `state` VARCHAR(45) NOT NULL CHECK (`state` IN ('active', 'waitlisted', 'overdue')) ,
+  `state` VARCHAR(45) NOT NULL CHECK (`state` IN ('active', 'waitlisted', 'overdue', 'returned')) ,
   PRIMARY KEY (`username_su`, `isbn`),
   INDEX `isbn_idx` (`isbn` ASC)  ,
   INDEX `username_libm_UNIQUE_BD` (`username_libm` ASC)  ,
