@@ -5,6 +5,7 @@ WHERE bd.category = 'B' AND DATEDIFF(CURDATE(), bd.datetime) >= 7 AND bd.state =
 UPDATE Book_Demand bd
 SET bd.state = 'active'
 WHERE bd.category = 'B' AND DATEDIFF(CURDATE(), bd.datetime) < 7 AND bd.state = 'overdue';
+
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS get_list //
@@ -43,4 +44,4 @@ END //
 
 DELIMITER ;
 
--- CALL get_list('g', '', 0);
+CALL get_list('r', '', 0);
