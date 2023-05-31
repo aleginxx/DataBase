@@ -15,8 +15,8 @@ CREATE PROCEDURE reject_signup_user (
 )
 BEGIN
 	DELETE 
-    FROM School_User su
-    WHERE su.username_su = input_username AND su.password = input_password;
+    FROM School_User 
+    WHERE username_su = input_username AND password = input_password;
     
     END //
     
