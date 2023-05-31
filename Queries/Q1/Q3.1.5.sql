@@ -1,7 +1,7 @@
 SELECT DISTINCT COUNT(bd.isbn) AS borrowing_count_per_unit, CONCAT(user.first_name, " ", user.last_name) AS user_name
 FROM school_user user, school_unit unit, book b, book_demand bd, library_manager lm
 WHERE bd.isbn = b.isbn
-	AND bd.username_su = user.username_su
+	AND lm.username_libm = user.username_su
 	AND lm.username_libm = bd.username_libm
     AND lm.approved = 'accepted'
 	AND bd.category = 'B'
