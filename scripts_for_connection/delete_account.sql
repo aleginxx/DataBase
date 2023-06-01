@@ -40,4 +40,4 @@ BEGIN
     
 DELIMITER ;
 
-CALL delete_account('godinternal');
+-- CALL delete_account('godinternal');

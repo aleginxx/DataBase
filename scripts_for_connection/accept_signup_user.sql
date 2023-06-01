@@ -14,7 +14,7 @@ CREATE PROCEDURE accept_signup_user (
     IN input_role VARCHAR(1)
 )
 BEGIN
-UPDATE School_User su
+	UPDATE School_User su
     SET approved = 'accepted' 
     WHERE su.username_su = input_username AND su.password = input_password;
     

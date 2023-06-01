@@ -12,7 +12,7 @@ CREATE PROCEDURE make_reservation(
     IN input_username VARCHAR(100)
 )
 BEGIN
-DECLARE role_value VARCHAR(1);
+	DECLARE role_value VARCHAR(1);
     DECLARE count_r INT;
     DECLARE isbn_index VARCHAR(12);
     DECLARE Lib_Man VARCHAR(100);
