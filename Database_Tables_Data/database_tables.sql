@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`School_Unit` (
     FOREIGN KEY (`username_libm`)
     REFERENCES `mydb`.`Library_Manager` (`username_libm`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`School_User` (
     FOREIGN KEY (`phone_number`)
     REFERENCES `mydb`.`School_Unit` (`phone_number`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -148,17 +148,17 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Book_Demand` (
     FOREIGN KEY (`username_su`)
     REFERENCES `mydb`.`School_User` (`username_su`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_isbn_BD` 
     FOREIGN KEY (`isbn`)
     REFERENCES `mydb`.`Book` (`isbn`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_username_libm_BD` 
     FOREIGN KEY (`username_libm`)
     REFERENCES `mydb`.`Library_Manager` (`username_libm`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
     
       
 ENGINE = InnoDB;
@@ -181,17 +181,17 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Review` (
     FOREIGN KEY (`isbn`)
     REFERENCES `mydb`.`Book` (`isbn`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_username_su`
     FOREIGN KEY (`username_su`)
     REFERENCES `mydb`.`School_User` (`username_su`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_username_libm_R`
     FOREIGN KEY (`username_libm`)
     REFERENCES `mydb`.`Library_Manager` (`username_libm`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
     
     
 ENGINE = InnoDB;
@@ -210,12 +210,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Book_has_key_word` (
     FOREIGN KEY (`Book_isbn`)
     REFERENCES `mydb`.`Book` (`isbn`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Book_has_key_word_key_word1`
     FOREIGN KEY (`key_word_kw_id`)
     REFERENCES `mydb`.`key_word` (`kw_id`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -230,12 +230,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Book_has_Genre` (
     FOREIGN KEY (`Book_isbn`)
     REFERENCES `mydb`.`Book` (`isbn`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Book_has_Genre_Genre`
     FOREIGN KEY (`Genre_genre_id`)
     REFERENCES `mydb`.`Genre` (`genre_id`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -252,12 +252,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Book_has_Author` (
     FOREIGN KEY (`Book_isbn`)
     REFERENCES `mydb`.`Book` (`isbn`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Book_has_Author_Author1`
     FOREIGN KEY (`Author_author_id`)
     REFERENCES `mydb`.`Author` (`author_id`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
