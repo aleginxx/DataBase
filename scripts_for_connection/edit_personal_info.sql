@@ -13,6 +13,7 @@ CREATE PROCEDURE edit_personal_info (
 )
 BEGIN
 	DECLARE value_role INT;
+    DECLARE check_username INT;
     
     SELECT COUNT(*) INTO value_role
     FROM School_User su
@@ -21,10 +22,19 @@ BEGIN
     IF value_role = 0 THEN SELECT 'This account does not exist or cannot modify their personal information.' AS Message;
     
 	ELSE 
-		IF search_username != '' THEN
-			UPDATE School_User su
-            SET su.username_su = search_username
-            WHERE su.username_su = current_username;
+		IF search_username != '' AND search_username != current_username THEN
+			SELECT COUNT(*) INTO check_username
+            FROM School_User su
+            WHERE su.username_su = search_username;
+        
+			IF check_username = 0 THEN 
+				UPDATE School_User 
+				SET username_su = search_username
+				WHERE username_su = current_username;
+                
+			ELSE
+				SELECT 'This username is already used. Please try again.' AS Message;
+			END IF;
 		END IF;
         
         IF search_first_name != '' THEN
@@ -51,4 +61,5 @@ BEGIN
         
 DELIMITER ;
 
--- CALL edit_personal_info('ndallinder01', '', '9sw5nGaKAG', '', NULL);
+-- CALL edit_personal_info('ndallinder01', 'TOALLAKSA', '', '', NULL);
+
